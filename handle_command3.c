@@ -52,7 +52,9 @@ void	execute_command(t_env *env, char *path, char **args)
 			if (exists != 0)
 			{
 				env->exit_status = 2;
-				printf("minishell: %s: No such file or directory\n", args[i]);
+				write(STDERR_FILENO, "minishell: ", 11);
+				write(STDERR_FILENO, args[i], ft_strlen(args[i]));
+				write(STDERR_FILENO, ": No such file or directory\n", 28);
 				return ;
 			}
 			i++;
