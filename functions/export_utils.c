@@ -31,8 +31,7 @@ int	extract_varname(char *input, char **varname, int *i)
 	(*varname)[j] = '\0';
 	if (input[*i] != '=')
 	{
-		perror("export: invalid identifier");
-		free(*varname);
+		printf("export: invalid identifier\n");
 		return (0);
 	}
 	(*i)++;
