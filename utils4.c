@@ -28,3 +28,44 @@ void	handle_sigquit(int sig)
 		exit(131);
 	}
 }
+
+int	check_quote_empty(char *line)
+{
+	if (ft_strlen(line) == 2 && line[0] == '"' && line[1] == '"')
+	{
+		printf("bash: : command not found\n");
+		return (1);
+	}
+	else if (ft_strlen(line) == 2 && line[0] == '\'' && line[1] == '\'')
+	{
+		printf("bash: : command not found\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_check(char *line)
+{
+	int	count;
+	int	i;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ' || line[i] == '\t')
+			count++;
+		i++;
+	}
+	if (count >= 1 && line[0] == '"' && line[ft_strlen(line) - 1] == '"')
+	{
+		printf("minishell: command %s not found\n", line);
+		return (1);
+	}
+	else if (count >= 1 && line[0] == '\'' && line[ft_strlen(line) - 1] == '\'')
+	{
+		printf("minishell: command %s not found\n", line);
+		return (1);
+	}
+	return (0);
+}

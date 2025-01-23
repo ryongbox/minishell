@@ -128,6 +128,9 @@ int			ft_strcmp(const char *str1, const char *str2);
 int			handle_backspace(int count, int key);
 int			handle_tab(int count, int key);
 int			is_line_empty(const char *line);
+int			check_quote_empty(char *line);
+int			count_arg(char *inpt);
+int			check_check(char *line);
 
 // export_setenv.c
 char		*create_new_var(const char *name, const char *value);

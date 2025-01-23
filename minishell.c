@@ -77,14 +77,16 @@ int	handle_quote(t_env *env, char *inpt)
 void	process_input(t_env *env, char *input)
 {
 	if (check_empty_functions(input) == 0 || simple_dollar(env, input) == 1
-		|| check_multiple_pipe(env, input) == 1)
+		|| check_multiple_pipe(env, input) == 1
+		|| check_quote_empty(input) == 1
+		|| check_check(input) == 1)
 		free(input);
 	else if (handle_quote(env, input) == 0)
 		execute_commands(env, input);
 	else
 		free(input);
 }
-//t_env	g_env;
+// t_env	g_env;
 
 int	main(void)
 {
