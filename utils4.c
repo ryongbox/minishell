@@ -44,28 +44,33 @@ int	check_quote_empty(char *line)
 	return (0);
 }
 
+int	print_error(char *line)
+{
+	printf("bash: %s: command not found\n", line);
+	return (1);
+}
+
 int	check_check(char *line)
 {
-	int	count;
+	int	indexes[2];
 	int	i;
 
+	indexes[0] = 0;
+	indexes[1] = 0;
 	i = 0;
-	count = 0;
 	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t')
-			count++;
+			indexes[0]++;
+		if (line[i] == '"' || line[i] == '\'')
+			indexes[1]++;
 		i++;
 	}
-	if (count >= 1 && line[0] == '"' && line[ft_strlen(line) - 1] == '"')
-	{
-		printf("minishell: command %s not found\n", line);
-		return (1);
-	}
-	else if (count >= 1 && line[0] == '\'' && line[ft_strlen(line) - 1] == '\'')
-	{
-		printf("minishell: command %s not found\n", line);
-		return (1);
-	}
+	if (indexes[0] >= 1 && indexes[1] == 2 && line[0] == '"'
+		&& line[ft_strlen(line) - 1] == '"')
+		return (print_error(line));
+	else if (indexes[0] >= 1 && indexes[1] == 2 && line[0] == '\''
+		&& line[ft_strlen(line) - 1] == '\'')
+		return (print_error(line));
 	return (0);
 }
