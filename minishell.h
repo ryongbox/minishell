@@ -6,7 +6,7 @@
 /*   By: tjehaes <tjehaes@student.42luxembourg >    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:54:11 by tjehaes           #+#    #+#             */
-/*   Updated: 2025/01/22 16:53:59 by tjehaes          ###   ########.fr       */
+/*   Updated: 2025/02/07 14:46:04 by tjehaes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,16 @@ typedef struct s_env
 	int		size;
 }			t_env;
 
-// extern t_env	g_env;
+typedef struct s_pipe_info
+{
+	int		fd_in;
+	int		pipefd[2];
+	int		is_last_command;
+	pid_t	pid;
+	int		status;
+}			t_pipe_info;
+
+extern sig_atomic_t	g_sigint_received;
 
 # define BLUE "\033[1;34m"
 # define RESET "\033[0m"
@@ -71,6 +80,7 @@ bool		is_pipe_inside_quotes(const char *str);
 void		skip_whitespace(char *input, int *i);
 int			extract_varname(char *input, char **varname, int *i);
 void		extract_val(char *input, char **value, int *i);
+int			check_empty_functions(char *inpt);
 
 // int				get_env_size(void);
 int			skip_spaces(char *input, int i);
@@ -112,13 +122,17 @@ void		execute_commands(t_env *env, char *inpt);
 
 // redirections.c
 void		handle_output_redirection(char *filename, bool append);
-void		handle_heredoc_redirection(const char *delimiter);
-void		handle_input_redirection(char *filename);
+void		handle_heredoc_redirection(const char *delimiter, t_env *env);
+void		handle_input_redirection(char *filename, t_env *env);
 void		execute_command_with_redirection(t_env *env, char *cmd, char *args);
 void		handle_command_or_args(char *token, char **cmd, char **args);
-void		handle_token(char *token, char **cmd, char **args);
+void		handle_token(t_env *env, char *token, char **cmd, char **args);
 void		execute_redirection(t_env *env, char *command);
 bool		is_redirection_inside_quotes(const char *str);
+void		child_process_heredoc(const char *delimiter,
+				int pipefd[2], t_env *env);
+void		read_and_write_heredoc(const char *delimiter,
+				int pipefd[2], t_env *env);
 
 // tokenizer.c
 char		*ft_strtok(char *str, const char *delimiters);
@@ -143,5 +157,6 @@ int			custom_setenv(t_env *env, const char *name, const char *value,
 char		**allocate_new_variables(int size);
 char		*create_variable_string(const char *varname, const char *value);
 void		handle_new_var(t_env *env, char *varname, char *value);
+void		print_exported_variables(t_env *env);
 
 #endif

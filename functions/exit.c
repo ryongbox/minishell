@@ -6,7 +6,7 @@
 /*   By: tjehaes <tjehaes@student.42luxembourg >    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 08:48:43 by tjehaes           #+#    #+#             */
-/*   Updated: 2025/01/22 15:11:58 by tjehaes          ###   ########.fr       */
+/*   Updated: 2025/02/07 15:00:59 by tjehaes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ int	give_status(char *input, int *i)
 	{
 		if (input[*i] >= '0' && input[*i] <= '9')
 			status = status * 10 + (input[(*i)++] - '0');
-		else if (input[*i] >= 'a' && input[*i] <= 'z')
-			status = status * 10 + (input[(*i)++] - 'a');
-		else if (input[*i] >= 'A' && input[*i] <= 'Z')
-			status = status * 10 + (input[(*i)++] - 'A');
+		else if ((input[*i] >= 'a' && input[*i] <= 'z') || (input[*i] >= 'A'
+				&& input[*i] <= 'Z'))
+		{
+			printf("error: numeric argument required\n");
+			return (-1);
+		}
 	}
 	return (status);
 }
@@ -84,5 +86,5 @@ void	execute_exit(t_env *env, char *input)
 		printf("exit\n");
 		exit(status * sign);
 	}
-	env->exit_status = 0;
+	env->exit_status = 1;
 }
