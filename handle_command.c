@@ -98,8 +98,6 @@ void	clear_terminal(char *command)
 
 void	ft_checker(t_env *env, char *command)
 {
-	if (env->exit_status != 0)
-		return ;
 	if (ft_memcmp(command, "cd", 2) == 0)
 		execute_cd(env, command);
 	else if (ft_memcmp(command, "clear", 5) == 0)
