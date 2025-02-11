@@ -52,14 +52,14 @@ char	*get_env_value(t_env *env, const char *var)
 	return (NULL);
 }
 
-void	handle_sigint(int sig)
+void handle_sigint(int sig)
 {
-	(void)sig;
-	g_env.exit_status = 130;
+    (void)sig;
+    g_signal_value = 1;
 	write(STDOUT_FILENO, "\n", 2);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
 }
 
 int	ft_strcmp(const char *str1, const char *str2)

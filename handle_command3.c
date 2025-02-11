@@ -22,6 +22,8 @@ void	update_exit_status(t_env *env, int status)
 {
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 		env->exit_status = (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+        env->exit_status = WTERMSIG(status) + 128;
 }
 
 int	is_path_set_check(t_env *env)

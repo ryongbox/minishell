@@ -59,8 +59,11 @@ void	parent_process_heredoc(int pipefd[2], pid_t pid)
 
 	close(pipefd[1]);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_env.exit_status = WEXITSTATUS(status);
+    if (WIFEXITED(status))
+    {
+        if (WEXITSTATUS(status) == 130)
+            g_signal_value = 1;
+    }
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 }

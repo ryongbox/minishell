@@ -46,7 +46,9 @@ typedef struct s_pipe_info
 	int		status;
 }			t_pipe_info;
 
-extern t_env	g_env;
+extern volatile sig_atomic_t g_signal_value;
+
+void handle_sigint(int sig);
 
 # define BLUE "\033[1;34m"
 # define RESET "\033[0m"
@@ -69,7 +71,7 @@ void		execute_export(t_env *env, char *inpt);
 void		verify_path_order(char *path);
 char		*get_env_value(t_env *env, const char *var);
 char		*cleanup_string(t_env *env, char *str);
-void		handle_sigint(int sig);
+//void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
 char		**pipe_tokenizer(char *command, int *num_commands);
 void		execute_pipeline(t_env *env, char **commands, int num_commands);

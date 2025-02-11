@@ -17,23 +17,28 @@ int	correct_command(t_env *env, char **args)
 	int	arg_count;
 	int	i;
 
-	i = 0;
 	arg_count = 0;
 	if (args)
-	{
-		while (args[arg_count])
-			arg_count++;
-		if (arg_count == 1)
-			return (1);
-		env->exit_status = 0;
-		if (access(args[1], F_OK) != -1)
-		{
-			while (ft_strstr(args[i++], "grep") == NULL)
-				return (1);
-		}
-		env->exit_status = 2;
-	}
-	return (1);
+    {
+        while (args[arg_count])
+            arg_count++;
+        if (arg_count == 1)
+            return (1);
+        env->exit_status = 0;
+        if (arg_count > 1)
+        {
+            i = 0;
+            while (args[i])
+            {
+                if (ft_strstr(args[i], "grep") != NULL)
+                    return (1);
+                i++;
+            }
+            if (access(args[1], F_OK) == -1)
+                env->exit_status = 2;
+        }
+    }
+    return (1);
 }
 
 char	*command_path(t_env *env, char *command_name)
