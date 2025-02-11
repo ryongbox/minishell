@@ -56,8 +56,6 @@ void	execute_pipeline(t_env *env, char **commands, int num_commands)
 	pid_t	pid;
 	int		fd_in;
 	int		i;
-	bool	in_single_quote;
-	bool	in_double_quote;
 
 	fd_in = 0;
 	i = 0;
@@ -80,6 +78,7 @@ void	execute_pipeline(t_env *env, char **commands, int num_commands)
 		i++;
 	}
 }*/
+
 bool	is_pipe_inside_quotes(const char *str)
 {
 	bool	in_single_quote;
@@ -121,7 +120,7 @@ void	handle_child_process(t_pipe_info *pipe_info, t_env *env, char *command)
 		execute_redirection(env, command);
 	else
 		ft_checker(env, command);
-	exit(env->exit_status);
+	exit(EXIT_SUCCESS);
 }
 
 void	handle_parent_process(int pipefd[2], int *fd_in)
@@ -152,8 +151,5 @@ void	execute_pipeline(t_env *env, char **commands, int num_commands)
 		i++;
 	}
 	while (wait(&pipe_info.status) > 0)
-	{
-		if (WIFEXITED(pipe_info.status))
-			env->exit_status = WEXITSTATUS(pipe_info.status);
-	}
+		;
 }
